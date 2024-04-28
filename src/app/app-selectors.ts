@@ -1,3 +1,3 @@
 import { AppRootState } from './store.ts'
 
-export const selectAppError = (state: AppRootState) => state.app.error
+export const selectAppStatus = (state: AppRootState) => state.app.status

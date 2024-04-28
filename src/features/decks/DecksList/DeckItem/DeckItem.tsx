@@ -1,5 +1,5 @@
 import s from './DeckItem.module.css'
-import { useAppDispatch } from '../../../../app/store.ts'
+import { useAppDispatch, useAppSelector } from '../../../../app/store.ts'
 import { deleteDeckTC, updateDeckTC } from '../../decks-thunks.ts'
 import { Deck } from '../../decks-api.ts'
 import { useState } from 'react'
@@ -8,7 +8,7 @@ type DeckProps = {
   deck: Deck
 }
 
-const TEST_ACC_NAME = 'Sweet'
+const TEST_ACC_NAME = 'Sweety5y'
 
 export const DeckItem = ({ deck }: DeckProps) => {
   const [isLoading, setIsLoading] = useState(false)
@@ -17,14 +17,14 @@ export const DeckItem = ({ deck }: DeckProps) => {
 
   const handleDeleteButtonClick = () => {
     setIsLoading(true)
-    dispatch(deleteDeckTC(deck.id)).then((res) => {
+    dispatch(deleteDeckTC(deck.id)).finally(() => {
       setIsLoading(false)
     })
   }
 
   const handleEditButtonClick = () => {
     setIsLoading(true)
-    dispatch(updateDeckTC({ id: deck.id, name: `${deck.name} updated` })).then((res) => {
+    dispatch(updateDeckTC({ id: deck.id, name: `${deck.name} updated` })).finally(() => {
       setIsLoading(false)
     })
   }
