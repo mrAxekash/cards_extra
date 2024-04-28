@@ -3,6 +3,7 @@ import { decksAPI, UpdateDeckParams } from './decks-api.ts'
 import { addDeckAC, deleteDeckAC, setDecksAC, updateDeckAC } from './decks-reducer.ts'
 import { setAppStatusAC } from '../../app/app-reducer.ts'
 import { isAxiosError } from 'axios'
+import { handleError } from '../../common/utils/handle-error.ts'
 
 export const fetchDecksTC = () => async (dispatch: Dispatch) => {
   dispatch(setAppStatusAC('loading'))
@@ -38,23 +39,6 @@ export const updateDeckTC = (params: UpdateDeckParams) => async (dispatch: Dispa
     const res = await decksAPI.updateDeck(params)
     dispatch(updateDeckAC(res.data))
   } catch (e: unknown) {
-    let errorMessage: string
-
-    if (isAxiosError<ServerError>(e)) {
-      errorMessage = e.response ? e.response.data.errorMessages[0].message : e.message
-      // if (e.response) {
-      //   errorMessage = e.response.data.errorMessages[0].message
-      // } else {
-      //   errorMessage = e.message
-      // }
-    } else {
-      errorMessage = (e as Error).message
-    }
-    //return errorMessage
-    console.log(errorMessage)
+    handleError(e, dispatch)
   }
-}
-
-type ServerError = {
-  errorMessages: Array<{ field: string; message: string }>
 }
