@@ -22,7 +22,7 @@ export const AddNewDeckForm = () => {
   })
 
   const onSubmit = (data: FormValues) => {
-    dispatch(addDeckTC(data)).then(() => {
+    dispatch(addDeckTC(data.name)).then(() => {
       reset()
     })
   }
